@@ -1,1 +1,3 @@
-spring.application.name=weather-information
+spring:
+  application:
+    name: weather-information
