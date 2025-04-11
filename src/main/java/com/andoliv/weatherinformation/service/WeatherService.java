@@ -21,13 +21,13 @@ public class WeatherService {
         put("christchurch", new Weather("Christchurch", "20", WeatherUnitsEnum.CELSIUS, "23/10/2023", WeatherConditionsEnum.SNOWY));
     }};
 
-    private Weather fetchWeatherFromExternalApi(String city) {
+    public Weather fetchWeatherFromExternalApi(String city) {
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         return new Weather(city, "25", "C", today, WeatherConditionsEnum.SUNNY);
     }
 
-    private Weather getWeatherByCity(String city) {
+    public Weather getWeatherByCity(String city) {
         if (city == null || city.isEmpty()) {
             //TODO Throw Exception Invalid data
         }
