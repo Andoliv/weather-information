@@ -10,22 +10,19 @@ public class ExtRestApiMessage {
     private final String status;
     private final LocalDateTime timestamp;
     private final String message;
-    private final String reason;
 
-    public ExtRestApiMessage(Exception exception, HttpStatus status, String message) {
+    public ExtRestApiMessage(Exception exception, HttpStatus status) {
         this.timestamp = LocalDateTime.now();
         this.code = status.value();
         this.status = status.getReasonPhrase();
-        this.message = message;
-        this.reason = exception.getMessage();
+        this.message = exception.getMessage();
     }
 
-    public ExtRestApiMessage(Exception exception, HttpStatus status, String message, String reason) {
+    public ExtRestApiMessage(HttpStatus status, String message) {
         this.timestamp = LocalDateTime.now();
         this.code = status.value();
         this.status = status.getReasonPhrase();
         this.message = message;
-        this.reason = reason;
     }
 
     public int getCode() {
@@ -42,9 +39,5 @@ public class ExtRestApiMessage {
 
     public String getMessage() {
         return message;
-    }
-
-    public String getReason() {
-        return reason;
     }
 }
