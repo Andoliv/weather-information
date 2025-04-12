@@ -30,7 +30,7 @@ public class WeatherService {
     }
 
     public Weather getWeatherByCity(String city) {
-        if (city == null || city.isEmpty()) {
+        if (city == null || city.isBlank()) {
             throw new IllegalArgumentException(INVALID_REQUEST_BODY_400_RESPONSE);
         }
 
