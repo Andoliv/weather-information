@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.andoliv.weatherinformation.constants.ApiDocs.INVALID_REQUEST_BODY_400_RESPONSE;
+
 @Service
 public class WeatherService {
 
@@ -29,7 +31,7 @@ public class WeatherService {
 
     public Weather getWeatherByCity(String city) {
         if (city == null || city.isEmpty()) {
-            //TODO Throw Exception Invalid data
+            throw new IllegalArgumentException(INVALID_REQUEST_BODY_400_RESPONSE);
         }
 
         return weatherCache.getOrDefault(city.toLowerCase().trim(), fetchWeatherFromExternalApi(city));

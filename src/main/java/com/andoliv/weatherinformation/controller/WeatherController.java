@@ -1,6 +1,6 @@
 package com.andoliv.weatherinformation.controller;
 
-import com.andoliv.weatherinformation.external.ExtRestApiMessage;
+import com.andoliv.weatherinformation.exception.WeatherNotFoundException;
 import com.andoliv.weatherinformation.external.ExtWeatherRequest;
 import com.andoliv.weatherinformation.model.Weather;
 import com.andoliv.weatherinformation.service.WeatherService;
@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,15 +43,16 @@ public class WeatherController {
 
     @Operation(summary = GET_WEATHER_BY_CITY_OPERATION)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = GET_WEATHER_200_RESPONSE)
+            @ApiResponse(responseCode = "200", description = GET_WEATHER_200_RESPONSE),
+            @ApiResponse(responseCode = "404", description = GET_WEATHER_404_RESPONSE)
     })
     @PostMapping("/city")
-    public ResponseEntity<Weather> getWeatherForCity(@RequestBody ExtWeatherRequest extWeatherRequest) {
+    public ResponseEntity<Weather> getWeatherForCity(@Valid @NotNull @RequestBody ExtWeatherRequest extWeatherRequest) {
 
         Weather weather = weatherService.getWeatherByCity(extWeatherRequest.getCity());
 
         if (weather == null) {
-            return ResponseEntity.notFound().build();
+            throw new WeatherNotFoundException(GET_WEATHER_404_RESPONSE);
         }
 
         return ResponseEntity.ok(weather);
